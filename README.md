@@ -31,7 +31,7 @@ In [Cellular Automata][ducksearch] (CA), we need 3 specific aspects.
 
 In order to simulate a [cellular automata][ducksearch] model, a spatial grid of cells, be it, 1D, 2D or 3D needs to be defined. In this grid, every cell can be thought of as an entity with a known state. For simplicity, we can assume this state to be of a binary type where the cell can exist in either state 0 or state 1 (white or black, etc.). The last aspect requires a set of defined rules that can model how these cell states change over time. This is determined by analysing neighbouring states. For instance, in the next moment in time, the state of cell can be calculated based on the neighborhood of one state, be it through summing neighboring states, averaging them, etc. Mathematically, we can express this relationship as:
 
-$(cell \ state)_{t}$ $=$ $f(neighborhood \ of \ states)_{t-1}$
+$$(cell \space state)_{t} = f(neighborhood \space of \space states)_{t-1}$$
 
 for any moment in time, $t$ and $(t-1)$ being the previous generation of time.
 
@@ -139,7 +139,7 @@ Alan Hensel, like John Conway was also a life enthusiast in terms of collecting 
 
 It is generally known that a [methuselah][met] is a pattern that requires several generations to stabilize (after a number of units of time during which the cellular automaton's rules are implemented) (known as its lifespan). At some point during its evolution, it also grows considerably bigger than its original configuration. The term "methuselah" is not typically used to describe patterns that stabilize in less than 100 generations, however it should be noted that there is no commonly accepted description for this pattern.
 
-
+![image.png](attachment:image.png)
 
 *Fig. 6: [R-Pentomino][r],  smallest and most well-known methuselah*
 
