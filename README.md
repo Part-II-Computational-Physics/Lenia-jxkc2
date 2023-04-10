@@ -138,7 +138,7 @@ Alan Hensel, like John Conway was also a life enthusiast in terms of collecting 
 
 It is generally known that a [methuselah][met] is a pattern that requires several generations to stabilize (after a number of units of time during which the cellular automaton's rules are implemented) (known as its lifespan). At some point during its evolution, it also grows considerably bigger than its original configuration. The term "methuselah" is not typically used to describe patterns that stabilize in less than 100 generations, however it should be noted that there is no commonly accepted description for this pattern.
 
-<img src= "https://i.postimg.cc/CxDQK2v4/R-pentomino.png" width="200" height="180">
+<img src= "https://i.postimg.cc/CxDQK2v4/R-pentomino.png">
 
 *Fig. 6: [R-Pentomino][r],  smallest and most well-known methuselah*
 
