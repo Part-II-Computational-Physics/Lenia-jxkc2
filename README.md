@@ -3,22 +3,16 @@
 
 Video 1 for Methuselah:
 
-<video src= 'https://user-images.githubusercontent.com/73965521/230880417-9b6ec673-6b62-48d7-9bf5-b5d4457f9871.mp4' controls width="320"/>
-</video>
+https://user-images.githubusercontent.com/73965521/230896555-aadc8ada-ea73-45b3-9f8d-0a95e290bc9d.mp4
 
 Video 2:
 
-<video width="320" height="240" controls>
-  <source src="https://user-images.githubusercontent.com/73965521/230890863-b84908c7-26c1-43e4-aded-a798d9917366.mp4">
-  Your browser does not support the video tag.
-</video>
+https://user-images.githubusercontent.com/73965521/230896614-43cdda2b-3b68-4e00-81ad-bb707fcb5fbe.mp4
 
 Video 3:
 
-<video width="320" height="240" controls>
-  <source src="https://user-images.githubusercontent.com/73965521/230890934-1dc4cc3c-7e2a-4795-9a6e-66d31ba675ed.mp4">
-  Your browser does not support the video tag.
-</video>
+https://user-images.githubusercontent.com/73965521/230896638-262d6d98-12d7-45dc-8da4-8fb7c0caa42d.mp4
+
 
 
 
