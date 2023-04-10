@@ -3,7 +3,5 @@
 
 Video 1 for Methuselah:
 
-
-
 https://user-images.githubusercontent.com/73965521/230880417-9b6ec673-6b62-48d7-9bf5-b5d4457f9871.mp4
 
