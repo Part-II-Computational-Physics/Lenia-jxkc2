@@ -3,9 +3,7 @@
 
 Video 1 for Methuselah:
 
-<video width="320" height="240" controls>
-  <source src="https://user-images.githubusercontent.com/73965521/230880417-9b6ec673-6b62-48d7-9bf5-b5d4457f9871.mp4">
-  Your browser does not support the video tag.
+<video src= 'https://user-images.githubusercontent.com/73965521/230880417-9b6ec673-6b62-48d7-9bf5-b5d4457f9871.mp4' controls width=320/>
 </video>
 
 Video 2:
