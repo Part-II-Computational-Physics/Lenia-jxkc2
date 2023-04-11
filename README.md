@@ -234,12 +234,13 @@ From Rafler's paper, the mathematical aspects or features that we need are essen
 
 #### 5.1.1 Continuous Grids
 
-We have seen that in Conway's simple 2D array grid counting algorithm implemented in section 2 of lenia (jxkc2).ipynb repository, we have constructed a discrete grid of infinitesimal cells. In order to smooth the domain, it is first necessary to swap out the discrete grid for a time-dependent continuous real scalar field on the plane. In other words, we make the length of the cells small but finite. The radius of the tiny, individual cell, $r i$, is therefore defined as a positive real value. The filling of the cell or the average of the field over the radius $h$ neighborhood around the cell at any given moment is easily described by the integral variable $M$ used in the smoothlife model article $x$. 
+We have seen that in Conway's simple 2D array grid counting algorithm implemented in section 2 of lenia (jxkc2).ipynb repository, we have constructed a discrete grid of infinitesimal cells. In order to smooth the domain, it is first necessary to swap out the discrete grid for a time-dependent continuous real scalar field on the plane. In other words, we make the length of the cells small but finite. The radius of the tiny, individual cell, $r_i$, is therefore defined as a positive real value. The filling of the cell or the average of the field over the radius $h$ neighborhood around the cell at any given moment is easily described by the integral variable $M$ used in the smoothlife model article $x$. 
 
 The number of cells in each cell's neighborhood should also be counted using this approach of averaging. As a result, we swap out the Moore's neighborhood, which we recalled to be a rectangular border in the original game of Life, with an annulus that is centered at the same random point $x$. This outer radius is believed to be $3r_i$ as deduced from Rafler's research paper [Smoothlife][smooth] under eqn. $(2)$ using $r_a$ definition. Visually, these mathematical integrals can be represented in fig. 11 below.
 
 
 
+*Fig. 11: $M$ represents the inner cell area and $N$ to represent the outer cell area*
 
 #### 5.1.2 Smooth transition functions
 
@@ -265,7 +266,7 @@ Plotting this function in lenia (jxkc2).ipynb produces the following plot for th
 
 <img src= "https://i.postimg.cc/WbvCPxqG/Graph1.png">
 
-*Fig. 11: Plot of the logistic sigmoid $\sigma$ from $x = -6$ to $6$*
+*Fig. 12: Plot of the logistic sigmoid $\sigma$ from $x = -6$ to $6$*
 
 
 We see that the sigmoid functions can be explained to go smoothly to 0 when $x < a$, and goes to 1 when $x > a$. On the other hand, the parameter $\alpha$ tells us how fast the sigmoid goes from 0 to 1 with $a$ being the parameter that shifts the sigmoid. Therefore, we can impose that any effective field values greater than 0.5 to be alive while those below 0.5 to be dead. Hence, using Rafler's eqn. $(5)$, the $\sigma_m$ function selects between $x$ and $y$ depending on whether the cell is alive or dead respectively. 
@@ -286,7 +287,7 @@ With this eqn. above, we use $s(n,m) = 2s_d(n,m)-1$ to smooth the time step.
 #### 5.1.5 Exploring New Patterns with Varied Enhancements
 
 
-### 5.2 Explor
+### 5.2 The Gray Scott Model 
 
 
 
