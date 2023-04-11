@@ -207,7 +207,7 @@ The challenge of this research aim was that most rule sets produced unappealing 
 From his results, he was able to discover a whole family of spacecraft ranging from Frankenstein spacecraft, the New Life, to several more intriguing outcomes detailed in his [paper][NN]. Although these deep neural networks seem promising, it is worth noting that he only considered a limited number of assumptions, some of which include limiting to Moore's neighborhood, [“Instant birth, gradual death, no recovery” Model][NN], spaceships and not other patterns like oscillators. In addition, performance of the neural networks as Qitian Liao had tested, increasing kernel size and filters in the convolutional layers did not improve performance of the CNN model. In summary, while deep neural learning is not all perfect, there is still much potential in what these neural networks can offer in expanding the knowledge bank of new patterns or creatures.
 
 
-### Final thoughts on other algorithms and patterns out there
+### 4.6 Final thoughts on other algorithms and patterns out there
 
 Overall, while we have seen from our above examples of methuselah and spaceships, both motivating the discovery of Hashlife and neural network algorithms respectively, there are also other work on new algorithms focused on different aims that include improving speed of rendering the animated evolution or simply finding new creatures as we will see in lenia. 
 
@@ -222,10 +222,75 @@ Other ambitious algorithms in the works include [Accelerated GPU-based algorithm
 
 ## 5. Building our Variations of Lenia
 
-Now, the fun begins in embarking our journey into the renowned lenia concept developed by Bert Chan. To make this seamless transition from Conway's game of life to the lenia variation, we would need to first consider how to generalise Conway's algorithm into one that has a continuous domain. In this section, we will be exploring 2 research articles and attempt to work on the implementation of these models towards a similar concept of lenia, they are the [Gray Scott Model][] and the [Smoothlife][]
+Now, the fun begins in embarking our journey into the renowned lenia concept developed by Bert Chan. To make this seamless transition from Conway's game of life to the lenia variation, we would need to first consider how to generalise Conway's algorithm into one that has a continuous domain. In this section, we will be exploring 2 research articles and attempt to work on the implementation of these models towards a similar concept of lenia, they are the [Gray Scott Model][gray] and the [Smoothlife model][smooth]
 
-In 2011, there has been the
+[gray]: https://www.lanevol.org/resources/gray-scott
+
+### 5.1 First Variation of Lenia: The Smoothlife model
+
+In the Smoothlife model as outlined in the Rafler's research paper [here][smooth], we will explain in this sub-section how the mathematics of the Smoothlife model is able to qualitatively generate the continuous model similar to lenia. As for The full explanation of how the mathematical steps in the paper are implemented in code, it can be found in lenia (jxkc2).ipynb repository.
+
+From Rafler's paper, the mathematical aspects or features that we need are essentially effective grids, smooth transition functions and time-steps added with some speedups of the algorithm.
+
+#### 5.1.1 Continuous Grids
+
+We have seen that in Conway's simple 2D array grid counting algorithm implemented in section 2 of lenia (jxkc2).ipynb repository, we have constructed a discrete grid of infinitesimal cells. In order to smooth the domain, it is first necessary to swap out the discrete grid for a time-dependent continuous real scalar field on the plane. In other words, we make the length of the cells small but finite. The radius of the tiny, individual cell, $r i$, is therefore defined as a positive real value. The filling of the cell or the average of the field over the radius $h$ neighborhood around the cell at any given moment is easily described by the integral variable $M$ used in the smoothlife model article $x$. 
+
+The number of cells in each cell's neighborhood should also be counted using this approach of averaging. As a result, we swap out the Moore's neighborhood, which we recalled to be a rectangular border in the original game of Life, with an annulus that is centered at the same random point $x$. This outer radius is believed to be $3r_i$ as deduced from Rafler's research paper [Smoothlife][smooth] under eqn. $(2)$ using $r_a$ definition. Visually, these mathematical integrals can be represented in fig. 11 below.
 
 
-[]: https://arxiv.org/abs/1111.1567
+
+
+#### 5.1.2 Smooth transition functions
+
+Recall that in Conway's game of life, the rules for the game of life involved counting the number of living and dead cells in the Moore's neighborhood discretely. Therefore, in the case of Smoothlife, we would need to generalize the rules for the game of life that apply to continuous values. The equation explaining Conway's rules may be obtained if we define our original field $f$ to be a discrete grid and $N$, $M$ gives the state of each cell and the quantity of live cells in the Moore neighborhood, respectively:
+
+$$ f(x,t+1) = S(N(x,t),M(x,t)) $$
+
+Where $S$ represents the transition function of the game of life. This function $S$ is, in other words, the set of rules governing the evolution of life in Conway's Game of life. In inequality form:
+
+$$
+S(N,M)=
+\begin{cases}
+1 & \quad \text{if $3-M \leq N $ and $ N \leq 3$}\\ 
+0 & \quad \text{otherwise}
+\end{cases}
+$$
+
+With this in mind, we need to smooth out the function $S$ or create a smooth approximation to $S$. To achieve this, following [Rafler's paper][smooth], we begin with the logistic sigmoid in the study by using the sigmoid functions to express the transition state and thresholding..
+
+$$ \sigma = \frac{1}{1+e^{-\frac{4}{\alpha}(x-a)}} $$
+
+Plotting this function in lenia (jxkc2).ipynb produces the following plot for the logistic sigmoid for $a=0$ and $\alpha = 4$:
+
+<img src= "https://i.postimg.cc/WbvCPxqG/Graph1.png">
+
+*Fig. 11: Plot of the logistic sigmoid $\sigma$ from $x = -6$ to $6$*
+
+
+We see that the sigmoid functions can be explained to go smoothly to 0 when $x < a$, and goes to 1 when $x > a$. On the other hand, the parameter $\alpha$ tells us how fast the sigmoid goes from 0 to 1 with $a$ being the parameter that shifts the sigmoid. Therefore, we can impose that any effective field values greater than 0.5 to be alive while those below 0.5 to be dead. Hence, using Rafler's eqn. $(5)$, the $\sigma_m$ function selects between $x$ and $y$ depending on whether the cell is alive or dead respectively. 
+
+In addition to the above, it is also necessary to smoothly threshold the interval which can be done using eqn. $(4)$. Combining this with eqn. $(5)$ gives us the state transition function in eqn.$(6)$ where $b_1$, $b_2$, $d_1$ and $d_2$ represents the limits for the life/death intervals. As for the width of the step, $\alpha$, we have the $\sigma_n$ and $\sigma_m$ variables which therefore necessitate 2 different values of $\alpha_n$ and $\alpha_m$. In total, these are the 6 parameters for building the CA for smoothlife.
+
+#### 5.1.3 Time steps
+
+Having made the state and space continuous, we are now left with the time domain. To smooth the discretised time-steps, we can introduce an infinitesimal time $dt$ and reinterpret the transition function as a rate of change of the function $f(\overrightarrow{x}, t)$ instead of the new function value as quoted by Rafler in his paper. Hence, this gives the function as:
+
+$$ f(\overrightarrow{x}, t+dt) = f(\overrightarrow{x}, t) + dtS[s(n,m)]f(\overrightarrow{x}, t) $$
+
+With this eqn. above, we use $s(n,m) = 2s_d(n,m)-1$ to smooth the time step.
+
+#### 5.1.4 Miscellaneous Enhancements
+
+
+#### 5.1.5 Exploring New Patterns with Varied Enhancements
+
+
+### 5.2 Explor
+
+
+
+[smooth]: https://arxiv.org/abs/1111.1567
+
+
 
