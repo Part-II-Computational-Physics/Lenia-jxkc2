@@ -6,8 +6,8 @@
 2. Basic Principles of Cellular Automata
 3. The Classics of Cellular Automata
 4. Bridging into Lenia from the Classics
-5. Building our Variations of Lenia
-6. Reflecting upon our Lenia Implementations and exploring new phenomena with Lenia
+5. Building our Variations of Lenia - Smoothlife
+6. Building our Variations of Lenia - Gray Scott Model
 7. Conclusion
 
 *Note: References are inserted in the form of hyperlinks for the specific words/phrases in this report write-up, instead of having a separate reference section*
@@ -183,10 +183,7 @@ In this separate illustration of a novel pattern called [spaceships][space], the
 
 It is useful to note that the amount of cells a pattern moves during the course of one period, divided by the period's duration, determines a spaceship's speed. This is conventionally stated in terms of $c$, or one cell each generation, which is a metaphor for the "speed of light." Again, running Conway's 2D array algorithm that we have, produces the evolution of the spaceship pattern according to Conway's rules. On the left is the evolution at $0.001s$ frame frate while on the bottom right has the evolution at frame rate $0.5s$ rate
 
-<video src= 'https://user-images.githubusercontent.com/73965521/230896614-43cdda2b-3b68-4e00-81ad-bb707fcb5fbe.mp4' controls>
-</video>
-<video src= 'https://user-images.githubusercontent.com/73965521/230896638-262d6d98-12d7-45dc-8da4-8fb7c0caa42d.mp4' controls>
-</video>
+<video src= 'https://user-images.githubusercontent.com/73965521/230896614-43cdda2b-3b68-4e00-81ad-bb707fcb5fbe.mp4' controls></video><video src= 'https://user-images.githubusercontent.com/73965521/230896638-262d6d98-12d7-45dc-8da4-8fb7c0caa42d.mp4' controls></video>
 
 *Fig. 9: Animated Evolution of the Spaceship pattern. Left Video represents the fast frame rate for the animation and right video represents the slow frame rate for the animation*
 
@@ -240,7 +237,7 @@ The number of cells in each cell's neighborhood should also be counted using thi
 
 
 
-*Fig. 11: $M$ represents the inner cell area and $N$ to represent the outer cell area*
+*Fig. 11:* $M$ *represents the inner cell area and* $N$ *to represent the outer cell area*
 
 #### 5.1.2 Smooth transition functions
 
@@ -266,7 +263,7 @@ Plotting this function in lenia (jxkc2).ipynb produces the following plot for th
 
 <img src= "https://i.postimg.cc/WbvCPxqG/Graph1.png">
 
-*Fig. 12: Plot of the logistic sigmoid $\sigma$ from $x = -6$ to $6$*
+*Fig. 12: Plot of the logistic sigmoid* $\sigma$ *from* $x = -6$ *to* $6$
 
 
 We see that the sigmoid functions can be explained to go smoothly to 0 when $x < a$, and goes to 1 when $x > a$. On the other hand, the parameter $\alpha$ tells us how fast the sigmoid goes from 0 to 1 with $a$ being the parameter that shifts the sigmoid. Therefore, we can impose that any effective field values greater than 0.5 to be alive while those below 0.5 to be dead. Hence, using Rafler's eqn. $(5)$, the $\sigma_m$ function selects between $x$ and $y$ depending on whether the cell is alive or dead respectively. 
@@ -296,31 +293,52 @@ Using the FFT method and starting with the BasicRules() function, we can generat
 <video src= 'https://user-images.githubusercontent.com/73965521/231440636-241bd2de-2c11-4a6d-9c08-93bdbef7198a.mp4' controls>
 </video>
 
-Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in speckle under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like creature halfway in the video below where the pattern seems to shrink initially leaving the dark red portions, but pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to: $b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video rendered takes about $2$ plus minutes. 
+Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in the speckle function  under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect due to the shrinking phase. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like pattern halfway in the video (around 0.30 onwards) below where the pattern seems to shrink initially for the first 30 seconds, leaving the dark red portions. However, pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to: $b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video produced takes about $2$ plus minutes to be rendered.
 
 <video src= 'https://user-images.githubusercontent.com/73965521/231445377-2b53c926-8004-4ed1-bde7-b87b0de5258a.mp4' controls>
 </video>
 
-Collectively, this animation seems familiar to the growing mould case found in the YouTube link for the first 1 minute before the presenter explains the biology of the growing mould below. It should be noted though that this separate growing mould animation does not show a shrinking phase segment exhibited in the animation rendered in the implemented code.
+Collectively, this animation, in particular, after $0.30s$ seems familiar to the growing mould known as the "Physarum polycephalum" found in the YouTube preview link for the first 1 minute before the presenter explains the biology of the growing mould below. It should be noted though that this separate growing mould animation does not show a shrinking phase segment exhibited in the animation rendered in the implemented code.
 
-[![Final video of fixing issues in your code in VS Code]
-(https://img.youtube.com/vi/7YWbY7kWesI/maxresdefault.jpg)]
-(https://www.youtube.com/watch?v=7YWbY7kWesI)
+[![Mould](https://img.youtube.com/vi/7YWbY7kWesI/hqdefault.jpg)](https://www.youtube.com/watch?v=7YWbY7kWesI)
 
-In the next pattern of the "possibly exploding cell" created, 
+In the next pattern of the "possibly exploding cell" animation created, we revert back to the use of the BasicRules(). The motivation behind this was to create another set of patterns involving the recreation of the appearance of elastic tension in the cords that join the blobs, which was separately simulated by an open-sourced platform [Ready][rea] which seems to use the BasicRules(). The same set of rules seemed to be used as well by the shadertool simulating connected ribbons that contract which can be found [here][sim]. Unfortunately, after experimentation, the pattern produced below was perhaps (or maybe not even) close to the contracting ribbons. Instead, the animation seemed to looked more like an evolving cell or a fast growing amoeba.
 
 <video src= 'https://user-images.githubusercontent.com/73965521/231440795-fe04b8ae-f455-404b-a266-50535d3375b0.mp4' controls>
 </video>
 
+Nevertheless, this less than expected result from the above animation could perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
 
+[![Evolving Protozoa](https://img.youtube.com/vi/fEDqdvKO5Y0/mqdefault.jpg)](https://www.youtube.com/watch?v=fEDqdvKO5Y0)
 
-### 5.2 The Gray Scott Model 
-
-
+[![Microscopy of Amoeba](https://img.youtube.com/vi/5Mn5BHR-Zek/mqdefault.jpg)](https://www.youtube.com/watch?v=5Mn5BHR-Zek)
 
 [smooth]: https://arxiv.org/abs/1111.1567
 [fft]: https://levelup.gitconnected.com/playing-with-lenia-a-continuous-version-of-conways-game-of-life-a26a5a7f1680
 [blog]: https://0fps.net/2012/11/19/conways-game-of-life-for-curved-surfaces-part-1/
 [sinc]: https://ccrma.stanford.edu/~jos/sasp/Rectangular_Window.html
+[rea]: https://conwaylife.com/wiki/Ready
+[sim]: https://conwaylife.com/wiki/Ready
+[protozoa]: https://github.com/DylanCope/Evolving-Protozoa
+
+#### 5.1.5 Final Thoughts on Smoothlife Model
+
+Having implemented the Smoothlife Model in python, it should be noted that the Smoothlife model was actually done previously on [SourceForge][source] which uses C++ and GPU for better performance combined with OpenGL and GLSL shaders. The open-source platform available on [SourceForge][source] provided a far more comprehensive list of interesting structures recorded [here][play] in comparison to the python implementation attempt conducted in this report. Nevertheless, we see from this implementation that our FFT functions kernel, in particular, had helped to speed up the convolution process which is the key component of the implementation in changing the state, space and time to be a continuous one. Future attempts can be made to changing the kernel function.
+
+[source]: https://sourceforge.net/projects/smoothlife/files/
+[play]: https://www.youtube.com/playlist?list=PL69EDA11384365494
+
+### 6. Building our Variations of Lenia - Gray Scott Model
+
+
+
+## 7. Conclusion
+
+Overall, the Smoothlife and Gray Scott models both provide an impressive lifelike appearance of the patterns, which is a major step-up from Conway's Game of life. However, it is crucial to highlight that the contrasts between these simulations and real biological life are just as significant as the similarities, just like with Lenia and many other continuous generalizations of Conway's Game of Life. Conway's discretised game of life supports an incredible range of structures, but it was not particularly resilient, according to our examination of the implementation done. To put it another way, chances are excellent that if you start with a random configuration, like we did with the speckle function in Smoothlife, it will eventually settle down to something uninteresting. This might be partially explained by the fact that the cellular automata (CA) represented here so far in this report frequently exhibits irreversible dynamics, meaning it is impossible to reconstruct the previous state from the present. 
+
+It will be more interesting to extend this investigation of CA to reversible cellular automata that shows an [ergodic][ergo] nature of evolution of the pattern. Nevertheless, modelling actual bioiogy after all is an uphill task not because of its uniquely random, unseen behaviour but translating that behaviour we observe into an elegant language of mathematics that, at minimum, approximates this behaviour which experimenters then simulate the mathematics into code. Time can only tell what new models will triumph the lenia model as the next big simulation that goes closer into mimicking real-life biology.
+
+
+[ergo]: https://en.wikipedia.org/wiki/Ergodicity
 
 
