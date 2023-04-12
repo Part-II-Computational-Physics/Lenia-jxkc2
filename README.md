@@ -293,7 +293,7 @@ Lastly, to drastically minimize the time complexity for the picture analysis, th
 
 Using the FFT method and starting with the BasicRules() function, we can generate the glider pattern using the parameters given according to Figure 1. [Rafler's paper][smooth]. Using the set of parameters, $r_\alpha = 21$, $b_1 = 0.278$, $b_2 = 0.365$, $d_1 = 0.267$, $d_2 = 0.445$, $\alpha_n = 0.028$, $\alpha_m = 0.147$, we are able to re-create the glider pattern as shown below:
 
-<video src= '' controls>
+<video src= 'https://user-images.githubusercontent.com/73965521/231440636-241bd2de-2c11-4a6d-9c08-93bdbef7198a.mp4' controls>
 </video>
 
 Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in speckle under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like creature halfway in the video below where the pattern seems to shrink initially leaving the dark red portions, but pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to:$b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video rendered takes about $2$ plus minutes. 
@@ -308,8 +308,10 @@ Collectively, this animation seems familiar to the growing mould case found in t
 
 In the next pattern of the "possibly exploding cell" created, 
 
-<video src= '' controls>
+<video src= 'https://user-images.githubusercontent.com/73965521/231440795-fe04b8ae-f455-404b-a266-50535d3375b0.mp4' controls>
 </video>
+
+
 
 ### 5.2 The Gray Scott Model 
 
