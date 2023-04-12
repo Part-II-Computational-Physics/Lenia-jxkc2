@@ -183,9 +183,13 @@ In this separate illustration of a novel pattern called [spaceships][space], the
 
 It is useful to note that the amount of cells a pattern moves during the course of one period, divided by the period's duration, determines a spaceship's speed. This is conventionally stated in terms of $c$, or one cell each generation, which is a metaphor for the "speed of light." Again, running Conway's 2D array algorithm that we have, produces the evolution of the spaceship pattern according to Conway's rules. On the left is the evolution at $0.001s$ frame frate while on the bottom right has the evolution at frame rate $0.5s$ rate
 
-<video src= 'https://user-images.githubusercontent.com/73965521/230896614-43cdda2b-3b68-4e00-81ad-bb707fcb5fbe.mp4' controls></video><video src= 'https://user-images.githubusercontent.com/73965521/230896638-262d6d98-12d7-45dc-8da4-8fb7c0caa42d.mp4' controls></video>
+<video src= 'https://user-images.githubusercontent.com/73965521/230896614-43cdda2b-3b68-4e00-81ad-bb707fcb5fbe.mp4' controls>
+</video>
 
-*Fig. 9: Animated Evolution of the Spaceship pattern. Left Video represents the fast frame rate for the animation and right video represents the slow frame rate for the animation*
+<video src= 'https://user-images.githubusercontent.com/73965521/230896638-262d6d98-12d7-45dc-8da4-8fb7c0caa42d.mp4' controls>
+</video>
+
+*Fig. 9: Animated Evolution of the Spaceship pattern. Top Video represents the fast frame rate for the animation and bottom video represents the slow frame rate for the animation*
 
 [space]: https://conwaylife.com/wiki/Spaceship
 
