@@ -228,7 +228,7 @@ Now, the fun begins in embarking our journey into the renowned lenia concept dev
 
 ### 5.1 First Variation of Lenia: The Smoothlife model
 
-In the Smoothlife model as outlined in the Rafler's research paper [here][smooth], we will explain in this sub-section how the mathematics of the Smoothlife model is able to qualitatively generate the continuous model similar to lenia. As for The full explanation of how the mathematical steps in the paper are implemented in code, it can be found in lenia (jxkc2).ipynb repository.
+In the Smoothlife model as outlined in the Rafler's research paper [here][smooth], we will explain in this sub-section how the mathematics of the Smoothlife model is able to qualitatively generate the continuous model similar to lenia. The implementation of the mathematical steps in Rafler's paper are implemented in code, it can be found in lenia (jxkc2).ipynb repository.
 
 From Rafler's paper, the mathematical aspects or features that we need are essentially effective grids, smooth transition functions and time-steps added with some speedups of the algorithm.
 
@@ -281,17 +281,43 @@ $$ f(\overrightarrow{x}, t+dt) = f(\overrightarrow{x}, t) + dtS[s(n,m)]f(\overri
 
 With this eqn. above, we use $s(n,m) = 2s_d(n,m)-1$ to smooth the time step.
 
-#### 5.1.4 Miscellaneous Enhancements
+#### 5.1.4 Exploring New Patterns with Fast Fourier Transform (FFT) Enhancements and Parameter Adjustment
+
+Based on this [article][fft] on the lenia algorithm kernel convolution idea and a nice [blog][blog] to explicity explain the mathematics behind the smoothlife model, we need to perform a kernel convolution of the spatial grid containing the cells in order to compute the living state for the grid element. This kernel process involves looking at all of the other grid elements, multiply them by the logistic function of the distance, and add them up.
+
+However, before performing this kernel convolution, we need to consider the method of sinc interpolation section as described in the detailed [blog][blog], which involves constructing basis functions for the periodic system using [aliased sinc][sinc] functions. This is where the Nyquist Sampling Theorem comes in, which states that we may use sampling to get the weights of the given periodic, band-limited function at the grid points, noting that the function is expressed as a sum of sinc basis functions. The benefit of this is that by avoiding integration to obtain the weights, it lessens the complexity of the code.
+
+Lastly, to drastically minimize the time complexity for the picture analysis, the kernel convolution is implemented using Fast Fourier Transform to the $n*n$ grid. After precalculating the weights by evaluating the Bessel function at each frequency, the Fast Fourier Transform method is then used on the function $f$ at each time step. Then, to create the animation, we multiply the function by the weights, apply an inverse transform, and repeat. And that, in a nutshell, is the algorithm.
+
+#### 5.1.4 Exploring New Patterns with (FFT) Enhancement and Parameter Adjustment
+
+Using the FFT method and starting with the BasicRules() function, we can generate the glider pattern using the parameters given according to Figure 1. [Rafler's paper][smooth]. Using the set of parameters, $r_\alpha = 21$, $b_1 = 0.278$, $b_2 = 0.365$, $d_1 = 0.267$, $d_2 = 0.445$, $\alpha_n = 0.028$, $\alpha_m = 0.147$, we are able to re-create the glider pattern as shown below:
+
+<video src= '' controls>
+</video>
+
+Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in speckle under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like creature halfway in the video below where the pattern seems to shrink initially leaving the dark red portions, but pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to:$b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video rendered takes about $2$ plus minutes. 
+
+<video src= '' controls>
+</video>
 
 
-#### 5.1.5 Exploring New Patterns with Varied Enhancements
+Collectively, this animation seems familiar to the growing mould case found in the YouTube link for the first 1 minute before the presenter explains the biology of the growing mould below. It should be noted though that this separate growing mould animation does not show a shrinking phase segment exhibited in the animation rendered in the implemented code.
 
+<iframe width="400" height="220" src="https://www.youtube.com/embed/7YWbY7kWesI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+In the next pattern of the "possibly exploding cell" created, 
+
+<video src= '' controls>
+</video>
 
 ### 5.2 The Gray Scott Model 
 
 
 
 [smooth]: https://arxiv.org/abs/1111.1567
-
+[fft]: https://levelup.gitconnected.com/playing-with-lenia-a-continuous-version-of-conways-game-of-life-a26a5a7f1680
+[blog]: https://0fps.net/2012/11/19/conways-game-of-life-for-curved-surfaces-part-1/
+[sinc]: https://ccrma.stanford.edu/~jos/sasp/Rectangular_Window.html
 
 
