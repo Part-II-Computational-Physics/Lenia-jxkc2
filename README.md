@@ -235,11 +235,11 @@ From Rafler's paper, the mathematical aspects or features that we need are essen
 
 #### 5.1.1 Continuous Grids
 
-We have seen that in Conway's simple 2D array grid counting algorithm implemented in section 2 of lenia (jxkc2).ipynb repository, we have constructed a discrete grid of infinitesimal cells. In order to smooth the domain, it is first necessary to swap out the discrete grid for a time-dependent continuous real scalar field on the plane. In other words, we make the length of the cells small but finite. The radius of the tiny, individual cell, $r_i$, is therefore defined as a positive real value. The filling of the cell or the average of the field over the radius $h$ neighborhood around the cell at any given moment is easily described by the integral variable $M$ used in the smoothlife model article $x$. 
+We have seen that in Conway's simple 2D array grid counting algorithm implemented in section 2 of lenia (jxkc2).ipynb repository, we have constructed a discrete grid of infinitesimal cells. In order to smooth the domain, it is first necessary to swap out the discrete grid for a time-dependent continuous real scalar field on the plane. In other words, we make the length of the cells small but finite. The radius of the tiny, individual cell, $r_i$, is therefore defined as a positive real value. The filling of the cell or the average of the field over the radius $h$ neighborhood around the cell at any given moment is easily described by the integral variable $M$ used in the smoothlife model article. 
 
 The number of cells in each cell's neighborhood should also be counted using this approach of averaging. As a result, we swap out the Moore's neighborhood, which we recalled to be a rectangular border in the original game of Life, with an annulus that is centered at the same random point $x$. This outer radius is believed to be $3r_i$ as deduced from Rafler's research paper [Smoothlife][smooth] under eqn. $(2)$ using $r_a$ definition. Visually, these mathematical integrals can be represented in fig. 11 below.
 
-
+<img src= "https://i.postimg.cc/MZjx5Zjx/Computing-Project-Diagrams-page-3.png" width="220" height="200">
 
 *Fig. 11:* $M$ *represents the inner cell area and* $N$ *to represent the outer cell area*
 
@@ -282,7 +282,7 @@ $$ f(\overrightarrow{x}, t+dt) = f(\overrightarrow{x}, t) + dtS[s(n,m)]f(\overri
 
 With this eqn. above, we use $s(n,m) = 2s_d(n,m)-1$ to smooth the time step.
 
-#### 5.1.4 Exploring New Patterns with Fast Fourier Transform (FFT) Enhancements and Parameter Adjustment
+#### 5.1.4 Introducing Convolution Theorem and Fast Fourier Transform (FFT) Enhancement
 
 Based on this [article][fft] on the lenia algorithm kernel convolution idea and a nice [blog][blog] to explicity explain the mathematics behind the smoothlife model, we need to perform a kernel convolution of the spatial grid containing the cells in order to compute the living state for the grid element. This kernel process involves looking at all of the other grid elements, multiply them by the logistic function of the distance, and add them up.
 
@@ -325,7 +325,7 @@ Nevertheless, this less than expected result from the above animation could perh
 [sim]: https://conwaylife.com/wiki/Ready
 [protozoa]: https://github.com/DylanCope/Evolving-Protozoa
 
-#### 5.1.5 Final Thoughts on Smoothlife Model
+#### 5.1.5 Final Remarks on Smoothlife Model
 
 Having implemented the Smoothlife Model in python, it should be noted that the Smoothlife model was actually done previously on [SourceForge][source] which uses C++ and GPU for better performance combined with OpenGL and GLSL shaders. The open-source platform available on [SourceForge][source] provided a far more comprehensive list of interesting structures recorded [here][play] in comparison to the python implementation attempt conducted in this report. Nevertheless, we see from this implementation that our FFT functions kernel, in particular, had helped to speed up the convolution process which is the key component of the implementation in changing the state, space and time to be a continuous one. Future attempts can be made to changing the kernel function.
 
@@ -333,6 +333,10 @@ Having implemented the Smoothlife Model in python, it should be noted that the S
 [play]: https://www.youtube.com/playlist?list=PL69EDA11384365494
 
 ### 6. Building our Variations of Lenia - Gray Scott Model
+
+In this new algorithm, We are able to create intriguing organic structures using the Gray Scott Model, which makes use of the reaction diffusion system. In this system, two virtual chemicals are simulated to react and diffuse on a 2D grid. According to the model, two broad chemicals have concentrations at certain points in space that can be predicted by two straightforward laplacian equations over generations of time.
+
+
 
 
 
