@@ -290,12 +290,16 @@ However, before performing this kernel convolution, we need to consider the meth
 
 Lastly, to drastically minimize the time complexity for the picture analysis, the kernel convolution is implemented using Fast Fourier Transform to the $n*n$ grid. After precalculating the weights by evaluating the Bessel function at each frequency, the Fast Fourier Transform method is then used on the function $f$ at each time step. Then, to create the animation, we multiply the function by the weights, apply an inverse transform, and repeat. And that, in a nutshell, is the algorithm.
 
-#### 5.1.4 Exploring New Patterns with (FFT) Enhancement and Parameter Adjustment
+### 5.2 Results and Discussion of the Smoothlife Model
+
+#### 5.2.1 Exploring New Patterns with (FFT) Enhancement and Discretised BasicRules()
 
 Using the FFT method and starting with the BasicRules() function, we can generate the glider pattern using the parameters given according to Figure 1. [Rafler's paper][smooth]. Using the set of parameters, $r_\alpha = 21$, $b_1 = 0.278$, $b_2 = 0.365$, $d_1 = 0.267$, $d_2 = 0.445$, $\alpha_n = 0.028$, $\alpha_m = 0.147$, we are able to re-create the glider pattern as shown below:
 
 <video src= 'https://user-images.githubusercontent.com/73965521/231440636-241bd2de-2c11-4a6d-9c08-93bdbef7198a.mp4' controls>
 </video>
+
+#### 5.2.2 Exploring New Patterns with (FFT) Enhancement but with SmoothTimestepRules()
 
 Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in the speckle function  under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect due to the shrinking phase. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like pattern halfway in the video (around 0.30 onwards) below where the pattern seems to shrink initially for the first 30 seconds, leaving the dark red portions. However, pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to: $b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video produced takes about $2$ plus minutes to be rendered.
 
@@ -305,6 +309,8 @@ Taking this exploration further, the self.rules $=$ BasicRules() definition used
 Collectively, this animation, in particular, after $0.30s$ seems familiar to the growing mould known as the "Physarum polycephalum" found in the YouTube preview link for the first 1 minute before the presenter explains the biology of the growing mould below. It should be noted though that this separate growing mould animation does not show a shrinking phase segment exhibited in the animation rendered in the implemented code.
 
 [![Mould](https://img.youtube.com/vi/7YWbY7kWesI/hqdefault.jpg)](https://www.youtube.com/watch?v=7YWbY7kWesI)
+
+#### 5.2.3 Going back to Discretised BasicRules() in finding New Patterns 
 
 In the next pattern of the "possibly exploding cell" animation created, we revert back to the use of the BasicRules(). The motivation behind this was to create another set of patterns involving the recreation of the appearance of elastic tension in the cords that join the blobs, which was separately simulated by an open-sourced platform [Ready][rea] which seems to use the BasicRules(). The same set of rules seemed to be used as well by the shadertool simulating connected ribbons that contract which can be found [here][sim]. Unfortunately, after experimentation, the pattern produced below was perhaps (or maybe not even) close to the contracting ribbons. Instead, the animation seemed to looked more like an evolving cell or a fast growing amoeba.
 
@@ -325,7 +331,7 @@ Nevertheless, this less than expected result from the above animation could perh
 [sim]: https://conwaylife.com/wiki/Ready
 [protozoa]: https://github.com/DylanCope/Evolving-Protozoa
 
-#### 5.1.5 Final Remarks on Smoothlife Model
+#### 5.2.4 Final Remarks on Smoothlife Model Implementation
 
 Having implemented the Smoothlife Model in python, it should be noted that the Smoothlife model was actually done previously on [SourceForge][source] which uses C++ and GPU for better performance combined with OpenGL and GLSL shaders. The open-source platform available on [SourceForge][source] provided a far more comprehensive list of interesting structures recorded [here][play] in comparison to the python implementation attempt conducted in this report. Nevertheless, we see from this implementation that our FFT functions kernel, in particular, had helped to speed up the convolution process which is the key component of the implementation in changing the state, space and time to be a continuous one. Future attempts can be made to changing the kernel function.
 
@@ -334,9 +340,31 @@ Having implemented the Smoothlife Model in python, it should be noted that the S
 
 ### 6. Building our Variations of Lenia - Gray Scott Model
 
-In this new algorithm, We are able to create intriguing organic structures using the Gray Scott Model, which makes use of the reaction diffusion system. In this system, two virtual chemicals are simulated to react and diffuse on a 2D grid. According to the model, two broad chemicals have concentrations at certain points in space that can be predicted by two straightforward laplacian equations over generations of time.
+#### 6.1 Introduction of the Gray Scott Model
+
+In this new algorithm, the Gray Scott Model, it is renowned for making use of the reaction diffusion system to generate intriguing organic structures known as ["Turing patterns"][biology], which are reminiscent of natural biological patterns such as zebra stripes. Another interesting research by [Heinrich Klüver][Hein] puts forth the idea that "Turing Patterns" are even connected to hallucinations formed from simple stripes of [cellular activation patterns in the eye][eye]. 
+
+In this Reaction-Diffusion system, two virtual chemicals $u$ and $v$ are simulated to react and diffuse on a 2D grid. According to the model, two broad chemicals have concentrations at certain points in space that can be predicted by two laplacian equations below over generations governing the Gray-Scott Model over future generations of time or in the next time frame. 
+
+$$ \frac{\partial u}{\partial t} = D_u \Delta u - uv^2 + F(1-u) $$
+
+$$ \frac{\partial v}{\partial t} = D_v \Delta v + uv^2 - (F+k)v $$
+
+The approach of translating the laplacian operator $\Delta$ into code will be based on representing the operator as a matrix that convolves the values of the neighboring cells with a common kernel using [this reference by Karl Sims as our guide here][karl]. Nevertheless, there are other methods such as the [numerical scheme in another implementation][numerical] for example, but we shall keep to the convolution matrix method. Full derivation or discussion of these Laplacian equation terms in the Gray Scott Model can be found [here][deriv].
+
+[biology]: https://biologicalmodeling.org/prologue/
+[Hein]: https://biologicalmodeling.org/prologue/reaction-diffusion#fnref:kluver
+[eye]: https://biologicalmodeling.org/prologue/reaction-diffusion#fnref:cowan
+[numerical]: https://pnavaro.github.io/python-fortran/06.gray-scott-model.html
+[deriv]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#theory
+
+#### 6.2 Performing 2D Implementation of the Gray Scott Model
+
+Now, let us translate the mathematical model of the Gray Scott Model into code. We set up
+Following [Karl Sims reference mentioned][karl] earlier, we will approach the laplacian operator with a convolution matrix. As for the matrix elements' values, the typical values of the convolution matrix representing the matrix elements have center weight -1, adjacent neighbors .2, and diagonals .05. It is likely that these values are deduced based on the observation that the matrix is visualised to weight the adjacent cells more heavily than the cells diagonal to the center cell. This seems reasonable because looking at [Karl Sims][karl] images of the diffusion process, the adjacent cells should impose a greater effect on the diffusion of the cell in focus with more surface area in common.
 
 
+[karl]: https://www.karlsims.com/rd.html
 
 
 
