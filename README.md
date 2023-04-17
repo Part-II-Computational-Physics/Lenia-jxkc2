@@ -286,9 +286,9 @@ With this eqn. above, we use $s(n,m) = 2s_d(n,m)-1$ to smooth the time step.
 
 Based on this [article][fft] on the lenia algorithm kernel convolution idea and a nice [blog][blog] to explicity explain the mathematics behind the smoothlife model, we need to perform a kernel convolution of the spatial grid containing the cells in order to compute the living state for the grid element. This kernel process involves looking at all of the other grid elements, multiply them by the logistic function of the distance, and add them up.
 
-However, before performing this kernel convolution, we need to consider the method of sinc interpolation section as described in the detailed [blog][blog], which involves constructing basis functions for the periodic system using [aliased sinc][sinc] functions. This is where the Nyquist Sampling Theorem comes in, which states that we may use sampling to get the weights of the given periodic, band-limited function at the grid points, noting that the function is expressed as a sum of sinc basis functions. The benefit of this is that by avoiding integration to obtain the weights, it lessens the complexity of the code.
+However, before performing this kernel convolution, we need to consider the method of sinc interpolation section as described in the detailed [blog][blog], which involves constructing basis functions for the periodic system using [aliased sinc][sinc] functions. This is where the Nyquist Sampling Theorem comes in, which states that we may use sampling to get the weights of the given periodic, band-limited function at the grid points, noting that the function is expressed as a sum of sinc basis functions. The benefit of this is that by avoiding integration to obtain the weights, it lessens the time complexity of the code down from $O(n^4)$ if direct integration was done for the nxn grid.
 
-Lastly, to drastically minimize the time complexity for the picture analysis, the kernel convolution is implemented using Fast Fourier Transform to the $n*n$ grid. After precalculating the weights by evaluating the Bessel function at each frequency, the Fast Fourier Transform method is then used on the function $f$ at each time step. Then, to create the animation, we multiply the function by the weights, apply an inverse transform, and repeat. And that, in a nutshell, is the algorithm.
+Lastly, to drastically minimize the time complexity for the picture analysis, the kernel convolution is implemented using the Fast Fourier Transform to the $n*n$ grid. After precalculating the weights by evaluating the Bessel function at each frequency, the Fast Fourier Transform method is then used on the function $f$ at each time step. Then, to create the animation, we multiply the function by the weights, apply an inverse transform, and repeat. And that, in a nutshell, is the algorithm.
 
 ### 5.2 Results and Discussion of the Smoothlife Model
 
@@ -299,12 +299,16 @@ Using the FFT method and starting with the BasicRules() function, we can generat
 <video src= 'https://user-images.githubusercontent.com/73965521/231440636-241bd2de-2c11-4a6d-9c08-93bdbef7198a.mp4' controls>
 </video>
 
+*Fig. 13: Glider Pattern Animation*
+
 #### 5.2.2 Exploring New Patterns with (FFT) Enhancement but with SmoothTimestepRules()
 
-Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in the speckle function  under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect due to the shrinking phase. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like pattern halfway in the video (around 0.30 onwards) below where the pattern seems to shrink initially for the first 30 seconds, leaving the dark red portions. However, pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to: $b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. The video produced takes about $2$ plus minutes to be rendered.
+Taking this exploration further, the self.rules $=$ BasicRules() definition used for the glider pattern was swapped out with the self.rules $=$ SmoothTimestepRules() which produces an initially uninteresting pattern where the randomly positioned cells using the speckle function showed the pattern shrinking to oblivion. However, after some testing, it was found that the count argument in the speckle function  under save animation cannot be left to default as it will assume a moderately dense fill of cells which potentially was not sufficient to observe any interesting effect due to the shrinking phase. Instead, the count was made to 1700 with intensity set to 10 to make a sufficiently dense plot, this accidentally created what appears to a growing blob like pattern halfway in the video (around 0.30 onwards) below where the pattern seems to shrink initially for the first 30 seconds, leaving the dark red portions. However, pass this shrinking phase, the remnants of the model begin to grow in size halfway as shown in the bottom animation recorded from the code. For re-creating the code, the SmoothTimeStepRules() has parameters set to: $b_1 = 0.305$, $b_2 = 0.443$, $d_1 = 0.556$, $d_2 = 0.814$ with fps being 35 and frames being set to 1000. Note that the video produced takes about $2$ plus minutes to be rendered. This is to be expected as the video length was made intentionally longer for the shrinking phase part to pass before the growing segment can be seen visually.
 
 <video src= 'https://user-images.githubusercontent.com/73965521/231445377-2b53c926-8004-4ed1-bde7-b87b0de5258a.mp4' controls>
 </video>
+
+*Fig. 14: Smooth Time Step Implementation showing "Growing Mould" animation*
 
 Collectively, this animation, in particular, after $0.30s$ seems familiar to the growing mould known as the "Physarum polycephalum" found in the YouTube preview link for the first 1 minute before the presenter explains the biology of the growing mould below. It should be noted though that this separate growing mould animation does not show a shrinking phase segment exhibited in the animation rendered in the implemented code.
 
@@ -316,6 +320,8 @@ In the next pattern of the "possibly exploding cell" animation created, we rever
 
 <video src= 'https://user-images.githubusercontent.com/73965521/231440795-fe04b8ae-f455-404b-a266-50535d3375b0.mp4' controls>
 </video>
+
+*Fig. 15: "Possibly Exploding Cell" Animation with BasicRules()*
 
 Nevertheless, this less than expected result from the above animation could perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
 
@@ -333,7 +339,7 @@ Nevertheless, this less than expected result from the above animation could perh
 
 #### 5.2.4 Final Remarks on Smoothlife Model Implementation
 
-Having implemented the Smoothlife Model in python, it should be noted that the Smoothlife model was actually done previously on [SourceForge][source] which uses C++ and GPU for better performance combined with OpenGL and GLSL shaders. The open-source platform available on [SourceForge][source] provided a far more comprehensive list of interesting structures recorded [here][play] in comparison to the python implementation attempt conducted in this report. Nevertheless, we see from this implementation that our FFT functions kernel, in particular, had helped to speed up the convolution process which is the key component of the implementation in changing the state, space and time to be a continuous one. Future attempts can be made to changing the kernel function.
+Having implemented the basic Smoothlife Model in python, it should be noted that the Smoothlife model was actually done previously on [SourceForge][source] which uses C++ and GPU for better performance combined with OpenGL and GLSL shaders. The open-source platform available on [SourceForge][source] provided a far more comprehensive list of interesting structures recorded [here][play] in comparison to the python implementation attempt conducted in this report. Nevertheless, we see from this implementation that our FFT functions kernel, in particular, had helped to speed up the convolution process which is the key component of the implementation in changing the state, space and time to be a continuous one. Future attempts can be made to changing the kernel function.
 
 [source]: https://sourceforge.net/projects/smoothlife/files/
 [play]: https://www.youtube.com/playlist?list=PL69EDA11384365494
@@ -356,23 +362,53 @@ The approach of translating the laplacian operator $\Delta$ into code will be ba
 [Hein]: https://biologicalmodeling.org/prologue/reaction-diffusion#fnref:kluver
 [eye]: https://biologicalmodeling.org/prologue/reaction-diffusion#fnref:cowan
 [numerical]: https://pnavaro.github.io/python-fortran/06.gray-scott-model.html
-[deriv]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#theory
 
 #### 6.2 Performing 2D Implementation of the Gray Scott Model
 
-Now, let us translate the mathematical model of the Gray Scott Model into code. We set up
-Following [Karl Sims reference mentioned][karl] earlier, we will approach the laplacian operator with a convolution matrix. As for the matrix elements' values, the typical values of the convolution matrix representing the matrix elements have center weight -1, adjacent neighbors .2, and diagonals .05. It is likely that these values are deduced based on the observation that the matrix is visualised to weight the adjacent cells more heavily than the cells diagonal to the center cell. This seems reasonable because looking at [Karl Sims][karl] images of the diffusion process, the adjacent cells should impose a greater effect on the diffusion of the cell in focus with more surface area in common.
+Now, let us translate the mathematical model of the Gray Scott Model into code. We first set up the grid with a given small region known as the seed which contains the initial state of chemicals before diffusion. After which, the grid is being initialised to contain arrays to store the concentration value of the chemicals.
+
+Following [Karl Sims reference mentioned][karl] earlier, we will approach the laplacian operator with a convolution matrix. As for the matrix elements' values, the typical values of the convolution matrix representing the matrix elements have center weight -1, adjacent neighbors .2, and diagonals .05. It is likely that these values are deduced based on the observation that the matrix is visualised to weight the adjacent cells more heavily than the cells diagonal to the center cell. This seems reasonable because looking at [Karl Sims][karl] images of the diffusion process, the adjacent cells should impose a greater effect on the diffusion of the cell being examined with more surface area in common.
+
+Finally, we are left with setting up the constrain function and the laplacian equations in our implementation. The motivation behind the constrain function is that it locates the various number of stable fixed points for the chemicals' concentration in the system on the laplacian relations. Thereafter, the np.dstack function is used to model the changes in these stable points which drives the pattern formation, following the [theory section of Gray Scott model][deriv] mentioned earlier.
+
+#### 6.3 Results and Discussion of Gray Scott Model
+
+In producing the patterns in the Gray Scott Model, we have first kept the diffusion coeffcients $D_v$ and $D_u$ to be related by $D_u = 2D_v$ or $D_u$ being double of $D_v$. This follows the recommended section of the theory in Gray Scott model [here][deriv1] to ensure that a clear pattern forms since the pattern depends on the diffusion coeffcients. 
+
+Keeping $D_u = 1.0$ and $D_v = 0.5$, we are able to generate a series of interesting patterns by varying the feed rate, $f$ and the kill rate, $k$.
+
+After some trial and error, we were able to generate an interesting pattern animation involving the cells or entities duplicating itself as shown, which is similar to the biological process called mitosis where a cell divides into 2 and subsequently grows exponentially into powers of 2 for the total number of cells.
+
+
+
+*Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2*
+
+
+This was considered the most unique result primarily because this pattern among the others shown below with the corresponding varied parameters of $f$ and $k$ does not have (or the least number) connected lines or shapes. In other words, the pattern appears to be scattered, isolated dots within a square region. Most other patterns display shapes that were either connected randomly or in an ordered manner, some of which may be difficult to tell what these patterns were relevant in relation to actual biological life. Nevertheless, snapshots of the final patterns produced of the simulation for each set of parameters are shown below with some of the more ordered patterns appearing to be a fingerprint pattern while random ones appear to be a haphazard maze. More of such patterns can be found from [Pearson's exploration of patterns in a simple system][pear].
+
+
+
+*Fig. 17: Patterns 
+
+ Similar to the SmoothLife model involving the convolution kernel to reduce time complexity, the performance of the basic Gray Scott model implementation is likely dependent to the distributions of the kernel's weights applied to the 3x3 convolution matrix. This is the case as different weights on the matrix may give both a different and computationally efficient result, not forgetting that we used a known convolution 3x3 matrix as suggested in the earlier reference made, which is based on the deduced assumption that the effect of diffusion on one cell by neighboring cells diminishes as neighboring cells get further away from the one cell being examined. Future work can look at examining other modes of this diffusion modes which propose a different set of appropriate weights
+
+Besides potentially tweaking different weights of the kernel beyond our assumed case, there other more complex numerical methods of implementation such as the [Thomas Block Tridiagonal solver and numerical compact schemes found in another research paper][future] (not implemented here). We may be able to find a more optimal algorithm in terms of reducing the computational cost in simulation or error measurement when more discrete time steps are made in the simulation.
 
 
 [karl]: https://www.karlsims.com/rd.html
+[deriv]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#theory
+[deriv1]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#overview
+[pear]: https://mrob.com/pub/comp/xmorphia/pearson-classes.html
+[future]: https://aip.scitation.org/doi/10.1063/1.5095517
 
+## 7. Conclusion With Closing Remarks on Implemented Models and Bert Chan's Lenia Model
 
+Overall, the Smoothlife and Gray Scott models both provide an impressive lifelike appearance of the patterns, which is a major step-up from Conway's Game of life. If we were to look at all of the models we have implemented from the basic Wolfram CA algorithm all the way to the Smoothlife and Gray Scott Models, we find that the recent famous lenia model implemented by Bert Chan share interesting similarities with the Gray Scott and Smoothlife models that have been implemented, working from ground up of the fundamental rules leading to continuous generalisation of Conway's Game of Life.
+For one, it is the convolution kernel being a key feature of the continuous cellular automata models.
 
-## 7. Conclusion
+However, it is crucial to highlight that the contrasts between these simulations and real biological life are just as significant as the similarities, just like with Lenia and many other continuous generalizations of Conway's Game of Life. Conway's discretised game of life supports an incredible range of structures, but it was not particularly resilient, according to our examination of the implementation done. To put it another way, chances are excellent that if you start with a random configuration, like we did with the speckle function in Smoothlife, it will eventually settle down to something uninteresting. This might be partially explained by the fact that the cellular automata (CA) represented here so far in this report frequently exhibits irreversible dynamics, meaning it is impossible to reconstruct the previous state from the present. 
 
-Overall, the Smoothlife and Gray Scott models both provide an impressive lifelike appearance of the patterns, which is a major step-up from Conway's Game of life. However, it is crucial to highlight that the contrasts between these simulations and real biological life are just as significant as the similarities, just like with Lenia and many other continuous generalizations of Conway's Game of Life. Conway's discretised game of life supports an incredible range of structures, but it was not particularly resilient, according to our examination of the implementation done. To put it another way, chances are excellent that if you start with a random configuration, like we did with the speckle function in Smoothlife, it will eventually settle down to something uninteresting. This might be partially explained by the fact that the cellular automata (CA) represented here so far in this report frequently exhibits irreversible dynamics, meaning it is impossible to reconstruct the previous state from the present. 
-
-It will be more interesting to extend this investigation of CA to reversible cellular automata that shows an [ergodic][ergo] nature of evolution of the pattern. Nevertheless, modelling actual bioiogy after all is an uphill task not because of its uniquely random, unseen behaviour but translating that behaviour we observe into an elegant language of mathematics that, at minimum, approximates this behaviour which experimenters then simulate the mathematics into code. Time can only tell what new models will triumph the lenia model as the next big simulation that goes closer into mimicking real-life biology.
+It will be more interesting to extend this investigation of CA to reversible cellular automata that shows an [ergodic][ergo] nature of evolution of the pattern. Nevertheless, modelling actual bioiogy after all is an uphill task not because of its uniquely random, unseen behaviour but translating that behaviour we observe into an elegant language of mathematics that, at minimum, approximates this behaviour which experimenters then simulate the mathematics into code. Time can only tell what new models will triumph the recent lenia model as the next big simulation that goes closer into mirroring real-life biology.
 
 
 [ergo]: https://en.wikipedia.org/wiki/Ergodicity
