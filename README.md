@@ -317,12 +317,12 @@ Collectively, this animation, in particular, after $0.30s$ seems familiar to the
 
 In the next pattern of the "possibly exploding cell" animation created, we revert back to the use of the BasicRules(). The motivation behind this was to create another set of patterns involving the recreation of the appearance of elastic tension in the cords that join the blobs, which was separately simulated by an open-sourced platform [Ready][rea] which seems to use the BasicRules(). The same set of rules seemed to be used as well by the shadertool simulating connected ribbons that contract which can be found [here][sim]. Unfortunately, after experimentation, the pattern produced below was perhaps (or maybe not even) close to the contracting ribbons. Instead, the accidental animation result seemed to looked more like an evolving cell or a fast growing amoeba of sorts. The set of parameters in producing this animation involves setting the parameters of the BasicRules() to be: $b_1 = 0.257$, $b_2 = 0.336$, $d_1 = 0.365$, $d_2 = 0.549$ with fps being 10 and frames being set to 100.
 
-<video src= 'https://user-images.githubusercontent.com/73965521/231440795-fe04b8ae-f455-404b-a266-50535d3375b0.mp4' controls>
+<video src= 'https://user-images.githubusercontent.com/73965521/232754294-4ad5e13f-a63f-443b-a364-41e43b5b0411.mp4' controls>
 </video>
 
 *Fig. 15: "Possibly Exploding Cell" Animation with BasicRules()*
 
-Nevertheless, this less than expected result from the above animation could perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
+Nevertheless, this less than expected result from the above animation, likened to the Methuselah pattern could also perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
 
 [![Evolving Protozoa](https://img.youtube.com/vi/fEDqdvKO5Y0/mqdefault.jpg)](https://www.youtube.com/watch?v=fEDqdvKO5Y0)
 
@@ -378,7 +378,8 @@ Keeping $D_u = 1.0$ and $D_v = 0.5$, we are able to generate a series of interes
 
 After some trial and error, we were able to generate an interesting pattern animation involving the cells or entities duplicating itself as shown, which is similar to the biological process called [mitosis][division] where a cell divides into 2 and subsequently grows exponentially into powers of 2 for the total number of cells.
 
-
+<video src= 'https://user-images.githubusercontent.com/73965521/232754929-bf881079-b69b-40ce-bfcb-4260eaa60b89.mp4' controls>
+</video>
 
 *Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2*
 
