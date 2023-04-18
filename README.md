@@ -322,7 +322,7 @@ In the next pattern of the "possibly exploding cell" animation created, we rever
 
 *Fig. 15: "Possibly Exploding Cell" Animation with BasicRules()*
 
-Nevertheless, this less than expected result from the above animation, likened to the Methuselah pattern could also perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
+Nevertheless, this less than expected result from the above animation, likened to the Methuselah pattern, could also perhaps be potentially more similar to a YouTube link that shows an evolving protozoa (or maybe more suitable for the Growing blob pattern) which actually has a Java simulation code link in description that can be found in [Github][protozoa]. Alternatively, this may be more similar to another amoeba cell growing but not as much as the video presented above. I will leave the question of familiarity of patterns to the reader (or perhaps the reader may find a better creature or living organism that better relates to the animation above)
 
 [![Evolving Protozoa](https://img.youtube.com/vi/fEDqdvKO5Y0/mqdefault.jpg)](https://www.youtube.com/watch?v=fEDqdvKO5Y0)
 
@@ -372,36 +372,57 @@ Finally, we are left with setting up the constrain function and the laplacian eq
 
 #### 6.3 Results and Discussion of Gray Scott Model
 
+After some trial and error, it can be shown that the patterns can be made more complicated by making the diffusion process occur with different diffusion constants in different directions, changing some the feed or kill parameters as a function of the position in the plane or simply by speed up or down the reaction rate from the time step. However, in the implementation made, it is found that adjusting the time step a small amount from dt=1 to dt>2 significantly changed the pattern considerably into a uniform colored pattern which yielded hardly any interesting result. This may be so because considering the [theory of Gray Scott model][deriv], the instability occuring in the diffusion process can only happen when the reaction rate is sufficiently slow. Therefore, the time-step is kept constant at dt=1 in our exploration.
+
 In producing the patterns in the Gray Scott Model, we have first kept the diffusion coeffcients $D_v$ and $D_u$ to be related by $D_u = 2D_v$ or $D_u$ being double of $D_v$. This follows the recommended section of the theory in Gray Scott model [here][deriv1] to ensure that a clear pattern forms since the pattern depends on the diffusion coeffcients. 
 
 Keeping $D_u = 1.0$ and $D_v = 0.5$, we are able to generate a series of interesting patterns by varying the feed rate, $f$ and the kill rate, $k$.
 
-After some trial and error, we were able to generate an interesting pattern animation involving the cells or entities duplicating itself as shown, which is similar to the biological process called [mitosis][division] where a cell divides into 2 and subsequently grows exponentially into powers of 2 for the total number of cells.
+After some trial and error, we were able to generate interesting patterns involving the cells or entities duplicating itself as shown, which is similar to the biological process called [mitosis][division] where a cell divides into 2 and subsequently grows exponentially into powers of 2 for the total number of cells. As seen in Fig.16, we see that the top video is faster in it
 
 <video src= 'https://user-images.githubusercontent.com/73965521/232754929-bf881079-b69b-40ce-bfcb-4260eaa60b89.mp4' controls>
 </video>
 
-*Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2*
+*Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2. The top most simulation has parameters f=0.028, k=0.062 which showed a faster mitosis effect in comparison to the bottom animation with a slower mitosis effect with f=0.0367, k=0.0649*
 
 
-This was considered the most unique result primarily because this pattern among the others shown below with the corresponding varied parameters of $f$ and $k$ does not have (or the least number) connected lines or shapes. In other words, the pattern appears to be scattered, isolated dots within a square region. Most other patterns display shapes that were either connected randomly or in an ordered manner, some of which may be difficult to tell what these patterns were relevant in relation to actual biological life. Nevertheless, all of such patterns are known as Turing patterns which are formed as a consequence of instability in the steady states of the reaction between 2 chemicals that become unstable due to the diffusion processs. napshots of the final patterns produced of the simulation for each set of parameters are shown below with some of the more ordered patterns appearing to be a fingerprint pattern while random ones appear to be a haphazard maze. More of such patterns can be found from [Pearson's exploration of patterns in a simple system][pear].
+These were considered to be the most unique results with the coressponding set of parameters $f$ and $k$ for self-replicating spots. Reason for this is that not only does this pattern mirror the biological life of cell division or duplication of DNA in cells, it also ties very closely with the realm of chemistry seen in the famous chlorite-iodide-malonic acid and ferrocyanide–iodate–sulphite chemical reactions. The research conducted on producing numerical simulations on the [chlorite-iodide-malonic acid reaction][I2] was the first experiment that validated the theory of "Turing patterns" which had previously been accepted by several biologists to be the model for pattern formation in living organisms but not proven concretely. 
 
+As Alan Turing hypothesised, a uniform steady state that is stable to homogeneous perturbations may become unstable to spatially non-uniform changes, which leads to the formation of Turing patterns. Specific to the self-replicating spots in the chlorite-iodide-malonic acid, the Turing pattern obtained is essentially a class of steady, spatially patterned but temporally motionless states. Results of experimental observation of the chlorite-iodite-malonic reactions produced the following Turing pattern via starch complexes as shown below, similar to the numerical simulations produced for our self-replicating spots as well.
 
+<img src = 'https://i.postimg.cc/N0nwzLyr/Pattern-Selfreplicate.png'>
+
+*Fig. 17: Turing patterns taken from [Nature research on chlorite-iodite-malonic acid reaction][I2]. The dark areas show high concentrations of starch–triiodide complex*
+
+Not forgetting the [ferrocyanide-iodate-sulphite reaction][ferro], experimental attempts were also conducted to observe for Turing patterns as seen below for the case of a square potential shown below. Overall, in both experimental investigations of the reactions mentioned, we can see a common pattern in which the self-replicating spots do not just form spontaneously from a uniform state. Instead, an initial perturbation is required to disturb this uniform state which thereby leads to self-sustaining replicating spot patterns as also demonstrated in our simulations. In terms of explaining the evolution of the self-replicating spots in greater detail, it may be worth looking at a proposed analytic approach based off from [a paper on the Dynamics of Self-Replicating Patterns in Reaction Diffusion Systems.][dynamics] if the reader is interested.
+
+<img src = 'https://i.postimg.cc/zG3GxypT/patternselfreplicate2.png'>
+
+*Fig. 18: Turing pattern formed from square potential taken from [experimental paper on the ferrocyanide-iodate-sulphite reaction][ferro]*
+
+So far, experimental agreement with the implemented simulations have not only shown that our model implementation of the Gray Scott model is valid, but also proved that for Turing patterns to occur, in agreement with the [theory behind Gray Scott Model patterns][deriv], they must first arise through instabilities of steady states that are stable to homogeneous perturbation, also known as [Turing Instability or Turing Bifurcation][instab]. Second, the kinetic and diffusion coefficients alone determine the patterned state. On this note, we can go beyond the self-replicating spots, where there are also other patterns that can be explored from adjustment of parameters which had shapes or lines either connected randomly or in an ordered manner. In other words, patterns that may not belong to the class of stationary states like those of self-replicating spots. Some of those patterns mentioned may be difficult to tell what these patterns were in connection to actual biological life. Snapshots of the final patterns produced of the simulation for each set of parameters are shown below with some of the more ordered patterns appearing to be a fingerprint pattern while random ones appear to be a haphazard maze. More of such patterns can be found from [Pearson's exploration of patterns in a simple system][pear].
+
+<img src = 'https://i.postimg.cc/xTf3fNKw/Flowerpattern.png'>
+<img src = 'https://i.postimg.cc/YSzSC0NP/Gray-Scott-Maze.png'>
+<img src = 'https://i.postimg.cc/MGqWNxkm/Gray-Scott-pattern1.png'>
+<img src = 'https://i.postimg.cc/W34spn1D/honeycomb.png'>
+<img src = 'https://i.postimg.cc/nrNyf8zk/pattern2.png'>
 
 *Fig. 17: Patterns*
 
 
-In summary, it is shown that the patterns can be made more complicated by making the diffusion process occur with different diffusion constants in different directions, changing some the feed or kill parameters as a function of the position in the plane or simply by speed up or down the reaction rate from the time step.
-
- Similar to the SmoothLife model involving the convolution kernel to reduce time complexity, the performance of the basic Gray Scott model implementation is likely dependent on the distributions of the kernel's weights applied to the 3x3 convolution matrix as well. This is the case as different weights on the matrix may give both a different and computationally efficient result, not forgetting that we used a known convolution 3x3 matrix as suggested in the earlier reference made by Karl, which is based on the deduced assumption that the effect of diffusion on one cell by neighboring cells diminishes as neighboring cells get further away from the one cell being examined. Future work can look at examining other modes of this diffusion modes which propose a different set of appropriate weights. This is important particularly for higher dimensions in the 3D case when
+Reflecting upon on our Gray Scott model implementation, the performance of the basic Gray Scott model implementation is likely dependent on the distributions of the kernel's weights applied to the 3x3 convolution matrix, similar to the SmoothLife model involving the convolution kernel. This is the case as different weights on the matrix may give both a different and computationally efficient result, not forgetting that we used a known convolution 3x3 matrix as suggested in the earlier reference made by Karl, which is based on the deduced assumption that the effect of diffusion on one cell by neighboring cells diminishes as neighboring cells get further away from the one cell being examined. Future work can look at examining other modes of this diffusion modes which propose a different set of appropriate weights both for the 2D and 3D cases.
 
 Besides potentially tweaking different weights of the kernel beyond our assumed case, there are other more complex numerical methods of implementation such as the [Thomas Block Tridiagonal solver and numerical compact schemes found in another research paper][future] (not implemented here) which can be used to show detailed levels of error analysis based on the truncation error of the numerical schemes' approximation term. This would allow us to find a more optimal algorithm in terms of reducing the computational cost in simulation or error measurement when more discrete time steps are made in the simulation.
-
 
 [karl]: https://www.karlsims.com/rd.html
 [deriv]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#theory
 [deriv1]: https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#overview
 [division]: https://www.britannica.com/science/mitosis
+[I2]: https://www.researchgate.net/figure/Turing-patterns-in-the-chlorite-iodide-malonic-acid-reaction-Dark-areas-show-high_fig11_228669771
+[ferro]: https://www.nature.com/articles/369215a0
+[dynamics]: https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.72.2797
+[instab]: http://mcb111.org/w13/w13-lecture.html#turing-instability-for-a-two-component-system
 [pear]: https://mrob.com/pub/comp/xmorphia/pearson-classes.html
 [future]: https://aip.scitation.org/doi/10.1063/1.5095517
 
