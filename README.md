@@ -8,7 +8,7 @@
 4. Bridging into Lenia from the Classics
 5. Building our Variations of Lenia - Smoothlife
 6. Building our Variations of Lenia - Gray Scott Model
-7. Conclusion
+7. Conclusion With Closing Remarks on Implemented Models and Bert Chan's Lenia Model
 
 *Note: References are inserted in the form of hyperlinks for the specific words/phrases in this report write-up, instead of having a separate reference section. Also, some results produced in the implementation models are presented in this report, instead of being in the repository.*
 
@@ -383,7 +383,8 @@ After some trial and error, we were able to generate interesting patterns involv
 <video src= 'https://user-images.githubusercontent.com/73965521/232754929-bf881079-b69b-40ce-bfcb-4260eaa60b89.mp4' controls>
 </video>
 
-
+<video src= 'https://user-images.githubusercontent.com/73965521/233122476-5e4c0a94-859e-4f7d-902c-c1ea6facca7f.mp4' controls>
+</video>
 
 *Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2. The top most simulation has parameters f=0.028, k=0.062 which showed a faster mitosis effect in comparison to the bottom animation with a slower mitosis effect with f=0.0367, k=0.0649, showing that there are more than one combination of k and f parameters to produce the same pattern, albeit with different speeds.*
 
