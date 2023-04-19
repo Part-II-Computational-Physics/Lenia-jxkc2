@@ -374,7 +374,7 @@ Finally, we are left with setting up the constrain function and the laplacian eq
 
 After some trial and error, it can be shown that the patterns can be made more complicated by making the diffusion process occur with different diffusion constants in different directions, changing some the feed or kill parameters as a function of the position in the plane or simply by speed up or down the reaction rate from the time step. However, in the implementation made, it is found that adjusting the time step a small amount from dt=1 to dt>2 significantly changed the pattern considerably into a uniform colored pattern which yielded hardly any interesting result. This may be so because considering the [theory of Gray Scott model][deriv], the instability occuring in the diffusion process can only happen when the reaction rate is sufficiently slow. Therefore, the time-step is kept constant at dt=1 in our exploration.
 
-In producing the patterns in the Gray Scott Model, we have first kept the diffusion coeffcients $D_v$ and $D_u$ to be related by $D_u = 2D_v$ or $D_u$ being double of $D_v$. This follows the recommended section of the theory in Gray Scott model [here][deriv1] to ensure that a clear pattern forms since the pattern depends on the diffusion coeffcients. 
+In producing the patterns in the Gray Scott Model, we have first kept the diffusion coeffcients $D_v$ and $D_u$ to be related by $D_u = 2D_v$ or $D_u$ being double of $D_v$. This follows the recommended section of the theory in Gray Scott model [here][deriv1] to ensure that a clear pattern forms since the pattern depends largely on the diffusion coeffcients. 
 
 Keeping $D_u = 1.0$ and $D_v = 0.5$, we are able to generate a series of interesting patterns by varying the feed rate, $f$ and the kill rate, $k$.
 
@@ -383,32 +383,36 @@ After some trial and error, we were able to generate interesting patterns involv
 <video src= 'https://user-images.githubusercontent.com/73965521/232754929-bf881079-b69b-40ce-bfcb-4260eaa60b89.mp4' controls>
 </video>
 
-*Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2. The top most simulation has parameters f=0.028, k=0.062 which showed a faster mitosis effect in comparison to the bottom animation with a slower mitosis effect with f=0.0367, k=0.0649*
+
+
+*Fig. 16: Video Animation of Exponential Growth of Cell based on powers of 2. The top most simulation has parameters f=0.028, k=0.062 which showed a faster mitosis effect in comparison to the bottom animation with a slower mitosis effect with f=0.0367, k=0.0649, showing that there are more than one combination of k and f parameters to produce the same pattern, albeit with different speeds.*
 
 
 These were considered to be the most unique results with the coressponding set of parameters $f$ and $k$ for self-replicating spots. Reason for this is that not only does this pattern mirror the biological life of cell division or duplication of DNA in cells, it also ties very closely with the realm of chemistry seen in the famous chlorite-iodide-malonic acid and ferrocyanide–iodate–sulphite chemical reactions. The research conducted on producing numerical simulations on the [chlorite-iodide-malonic acid reaction][I2] was the first experiment that validated the theory of "Turing patterns" which had previously been accepted by several biologists to be the model for pattern formation in living organisms but not proven concretely. 
 
-As Alan Turing hypothesised, a uniform steady state that is stable to homogeneous perturbations may become unstable to spatially non-uniform changes, which leads to the formation of Turing patterns. Specific to the self-replicating spots in the chlorite-iodide-malonic acid, the Turing pattern obtained is essentially a class of steady, spatially patterned but temporally motionless states. Results of experimental observation of the chlorite-iodite-malonic reactions produced the following Turing pattern via starch complexes as shown below, similar to the numerical simulations produced for our self-replicating spots as well.
+As Alan Turing hypothesised, a uniform steady state that is stable to homogeneous perturbations may become unstable to spatially non-uniform changes, which leads to the formation of Turing patterns. Specific to the self-replicating spots in the chlorite-iodide-malonic acid, this Turing pattern obtained essentially belongs to a class of steady, spatially patterned but temporally motionless states. Results of experimental observation of the chlorite-iodite-malonic reactions produced the following Turing pattern via starch complexes as shown below, similar to the numerical simulations produced for our self-replicating spots as well. This experiment also showed that in the [chlorite-iodide-malonic acid reaction][I2], it is mandatory to have 2 reacting species with 2 different diffusivities for the Turing pattern to occur, something that is hard to replicate in aqueous solution
 
 <img src = 'https://i.postimg.cc/N0nwzLyr/Pattern-Selfreplicate.png'>
 
 *Fig. 17: Turing patterns taken from [Nature research on chlorite-iodite-malonic acid reaction][I2]. The dark areas show high concentrations of starch–triiodide complex*
 
-Not forgetting the [ferrocyanide-iodate-sulphite reaction][ferro], experimental attempts were also conducted to observe for Turing patterns as seen below for the case of a square potential shown below. Overall, in both experimental investigations of the reactions mentioned, we can see a common pattern in which the self-replicating spots do not just form spontaneously from a uniform state. Instead, an initial perturbation is required to disturb this uniform state which thereby leads to self-sustaining replicating spot patterns as also demonstrated in our simulations. In terms of explaining the evolution of the self-replicating spots in greater detail, it may be worth looking at a proposed analytic approach based off from [a paper on the Dynamics of Self-Replicating Patterns in Reaction Diffusion Systems.][dynamics] if the reader is interested.
+Not forgetting the [ferrocyanide-iodate-sulphite reaction][ferro], experimental attempts were also conducted to observe for Turing patterns as seen below for the case of a square potential shown below which matches very closely to the numerical simulation for our Gray Scott Model. Overall, in both experimental investigations of the reactions mentioned, we can see a common pattern in which the self-replicating spots do not just form spontaneously from a uniform state. Instead, an initial perturbation is required to disturb this uniform state which thereby leads to self-sustaining replicating spot patterns as also demonstrated in our simulations. In terms of explaining the evolution of the self-replicating spots in greater detail, it may be worth looking at a proposed mathematical approach based off from [a paper on the Dynamics of Self-Replicating Patterns in Reaction Diffusion Systems.][dynamics] if the reader is interested.
 
 <img src = 'https://i.postimg.cc/zG3GxypT/patternselfreplicate2.png'>
 
 *Fig. 18: Turing pattern formed from square potential taken from [experimental paper on the ferrocyanide-iodate-sulphite reaction][ferro]*
 
-So far, experimental agreement with the implemented simulations have not only shown that our model implementation of the Gray Scott model is valid, but also proved that for Turing patterns to occur, in agreement with the [theory behind Gray Scott Model patterns][deriv], they must first arise through instabilities of steady states that are stable to homogeneous perturbation, also known as [Turing Instability or Turing Bifurcation][instab]. Second, the kinetic and diffusion coefficients alone determine the patterned state. On this note, we can go beyond the self-replicating spots, where there are also other patterns that can be explored from adjustment of parameters which had shapes or lines either connected randomly or in an ordered manner. In other words, patterns that may not belong to the class of stationary states like those of self-replicating spots. Some of those patterns mentioned may be difficult to tell what these patterns were in connection to actual biological life. Snapshots of the final patterns produced of the simulation for each set of parameters are shown below with some of the more ordered patterns appearing to be a fingerprint pattern while random ones appear to be a haphazard maze. More of such patterns can be found from [Pearson's exploration of patterns in a simple system][pear].
+So far, experimental agreement with the implemented simulations have not only shown that our model implementation of the Gray Scott model is valid, but also proved that for Turing patterns to occur, in agreement with the [theory behind Gray Scott Model patterns][deriv], they must first arise through instabilities of steady states that are stable to homogeneous perturbation, also known as [Turing Instability or Turing Bifurcation][instab]. Second, the kinetic and diffusion coefficients alone determine the patterned state. On this note, we can go beyond the self-replicating spots, where there are also other patterns that can be explored from adjustment of parameters which had shapes or lines either connected randomly or in an ordered manner. In other words, patterns that may not belong to the class of stationary states like those of self-replicating spots. Some of those patterns mentioned may be difficult to tell what these patterns were in connection to actual biological life. However, what is perhaps interesting to note is firstly, from the leftmost pattern to the middle pattern in Fig. 17, we varied the feed rate, $f$ while keeping $k$, kill rate constant, which showed that the pattern oscillation begins to transition from a seemingly irregular oscillation to a regular periodic oscillation and then to a steady state as exhibited by the continuous filled blue space in the middle image. Second, the subsequent images after the middle image showed that minute changes to $f$ and $k$ can produce dramatically different patterns. Snapshots of the final patterns produced of the simulation for each set of parameters are shown below with some appearing to look like a [fungi pattern][fungi] in the 2nd leftmost image or a [dicotyledonous plant's cross-section][dicot] in the middle image, while others appear difficult to relate in connection with biological life (unless the reader may find something more relatable). More of such patterns categorised into classes can be found from [Pearson's exploration of patterns in a simple system][pear].
 
-<img src = 'https://i.postimg.cc/xTf3fNKw/Flowerpattern.png'>
-<img src = 'https://i.postimg.cc/YSzSC0NP/Gray-Scott-Maze.png'>
-<img src = 'https://i.postimg.cc/MGqWNxkm/Gray-Scott-pattern1.png'>
-<img src = 'https://i.postimg.cc/W34spn1D/honeycomb.png'>
-<img src = 'https://i.postimg.cc/nrNyf8zk/pattern2.png'>
+<p float="left">
+  <img src = 'https://i.postimg.cc/xTf3fNKw/Flowerpattern.png'>
+  <img src = 'https://i.postimg.cc/W34spn1D/honeycomb.png'>
+  <img src = 'https://i.postimg.cc/nM8SHWsG/pattern2.png'>
+  <img src = 'https://i.postimg.cc/YSzSC0NP/Gray-Scott-Maze.png'>
+  <img src = 'https://i.postimg.cc/MGqWNxkm/Gray-Scott-pattern1.png'>
+</p>
 
-*Fig. 17: Patterns*
+*Fig. 17: Turing patterns that are not stationary. From left to right, the combination of parameters for f and k while keeping diffusion coefficients and time step, dt constant are: f=0.03, k=0.06; f=0.04, k=0.06; f=0.05, k=0.06; f=0.029, k=0.057; f=0.0545, k=0.06*
 
 
 Reflecting upon on our Gray Scott model implementation, the performance of the basic Gray Scott model implementation is likely dependent on the distributions of the kernel's weights applied to the 3x3 convolution matrix, similar to the SmoothLife model involving the convolution kernel. This is the case as different weights on the matrix may give both a different and computationally efficient result, not forgetting that we used a known convolution 3x3 matrix as suggested in the earlier reference made by Karl, which is based on the deduced assumption that the effect of diffusion on one cell by neighboring cells diminishes as neighboring cells get further away from the one cell being examined. Future work can look at examining other modes of this diffusion modes which propose a different set of appropriate weights both for the 2D and 3D cases.
@@ -423,19 +427,27 @@ Besides potentially tweaking different weights of the kernel beyond our assumed 
 [ferro]: https://www.nature.com/articles/369215a0
 [dynamics]: https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.72.2797
 [instab]: http://mcb111.org/w13/w13-lecture.html#turing-instability-for-a-two-component-system
+[fungi]: https://www.projectnoah.org/spottings/924626613
+[dicot]: https://www.goconqr.com/note/16162326/chapter-9-transport-in-plants
 [pear]: https://mrob.com/pub/comp/xmorphia/pearson-classes.html
 [future]: https://aip.scitation.org/doi/10.1063/1.5095517
 
 ## 7. Conclusion With Closing Remarks on Implemented Models and Bert Chan's Lenia Model
 
-Overall, the Smoothlife and Gray Scott models both provide an impressive lifelike appearance of the patterns, which is a major step-up from Conway's Game of life. If we were to look at all of the models we have implemented from the basic Wolfram CA algorithm all the way to the Smoothlife and Gray Scott Models, we find that the recent famous lenia model implemented by Bert Chan share interesting similarities with the Gray Scott and Smoothlife models that have been implemented, working from ground up of the fundamental rules leading to continuous generalisation of Conway's Game of Life.
-For one, it is the convolution kernel being a key feature of the continuous cellular automata models.
+Overall, the Smoothlife and Gray Scott models both provide an impressive lifelike appearance of the patterns, which is a major step-up from Conway's Game of life. Comparing both of these models, we find that the driving force of both algorithms lies in the reliance on diffusivities of 2 different species used in Gray Scott model while the Smoothlife model relies on the living states of a given cell.
+
+However, if we were to look at all of the models we have implemented from the basic Wolfram CA algorithm all the way to the Smoothlife and Gray Scott Models, we find that the recent famous lenia model implemented by Bert Chan share interesting similarities with the Gray Scott and Smoothlife models that have been implemented, working from ground up of the fundamental rules leading to continuous generalisation of Conway's Game of Life.
+For one, it is the [convolution kernel, spatial neighborhood of cell and the growth function based off this article][lenia article] being key features of the continuous cellular automata models. The growth function defined in the lenia model is actually equivalent to the transition function defined in the Smoothlife model which we require it to be 'smooth out', again like the lenia case to produce a continuous generalisation of lenia. The difference however lies in their implementation of the local rule which states:
+
+$$ \textbf{A}^{t+dt} = [\textbf{A}^t +dt G(\textbf{K}*\textbf{A}^t)]^1_0 $$
+
+which governs how $\textbf{A}$, defined as the world of the cell changes in state over generations of time. Future work can look at improving the Smoothlife in both implementations of rules in the transition function and kernel functions. Similarly, for the Gray Scott, the kernel function for the laplacian or numerical methods for analysing error accuracy in producing the biological patterns.
 
 However, it is crucial to highlight that the contrasts between these simulations and real biological life are just as significant as the similarities, just like with Lenia and many other continuous generalizations of Conway's Game of Life. Conway's discretised game of life supports an incredible range of structures, but it was not particularly resilient, according to our examination of the implementation done. To put it another way, chances are excellent that if you start with a random configuration, like we did with the add_initialpattern function in Smoothlife, it will eventually settle down to something uninteresting. This might be partially explained by the fact that the cellular automata (CA) represented here so far in this report frequently exhibits irreversible dynamics, meaning it is impossible to reconstruct the previous state from the present. 
 
 It will be more interesting to extend this investigation of CA to reversible cellular automata that shows an [ergodic][ergo] nature of evolution of the pattern. Nevertheless, modelling actual bioiogy after all is an uphill task not because of its uniquely random, unseen behaviour but translating that behaviour we observe into an elegant language of mathematics that, at minimum, approximates this behaviour which experimenters then simulate the mathematics into code. Time can only tell what new models will triumph the recent lenia model as the next big simulation that goes closer into mirroring real-life biology.
 
-
+[lenia article]: https://levelup.gitconnected.com/playing-with-lenia-a-continuous-version-of-conways-game-of-life-a26a5a7f1680
 [ergo]: https://en.wikipedia.org/wiki/Ergodicity
 
 
